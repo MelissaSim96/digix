@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<title>Simple Checkout System</title>
+</head>
+<body>
+	<form id="createForm" method="post">
+		<button class="add_SKU">Add Product</button>
+		<div class="input_fields_wrap">
+	        <label for="name">SKU</label>
+	        <input type="text" name="sku[]" placeholder="SKU"/>
+		</div>
+      	<div>
+          <button type="button" id="submit">Submit</button>
+        </div>
+	</form>
+	<div id="answer">
+	</div>
+
+</body>
+</html>
+
+<script>
+     function serialize(form) {
+        var serialized = form.serializeArray();
+        var s = '';
+        var data = {};
+        for(s in serialized){
+            data[serialized[s]['name']] = serialized[s]['value'];
+        }
+        return data;
+    }
+  
+  	$(document).ready(function(){
+		var add_button = $(".add_SKU");
+		var wrapper = $(".input_fields_wrap");
+        	var products = {};
+
+		$(add_button).click(function(e){ //on add input button click
+	        e.preventDefault();
+	        $(wrapper).append(
+	        	'<div class="input_fields_wrap">'+
+	                    '<label for="name">SKU</label>'+
+	                    '<input type="text" name="sku[]" placeholder="SKU"/>'+
+	                	'<button class="remove_field">Remove SKU</button>'+
+	            '</div>'
+	        );
+	    });
+
+	    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+	        e.preventDefault(); 
+	        $(this).parent('div').remove(); 
+	    });
+        
+        $("#submit").on("click", function(){
+        	var serializeData = serialize($("#createForm")); 
+            var products = {}; 
+            var i = 0; 
+			var sku = $('input[name="sku[]"]').map(function(){ 
+								return this.value; 
+							}).get();
+			$.ajax({
+			   type: "POST",
+			   data: {'data[]':sku},
+			   url: "Calculate.php",
+			   success: function(msg){
+				 $('#answer').html(msg);
+			   }
+			});
+           
+        });
+        
+	});
+
+</script>
+
+<?php
+//$products = $_POST["products"];
+	//array_count_values(array_column($products, 'sku'));
+?>

@@ -8,8 +8,13 @@
 	<form id="createForm" method="post">
 		<button class="add_SKU">Add Product</button>
 		<div class="input_fields_wrap">
-	        <label for="name">SKU</label>
-	        <input type="text" name="sku[]" placeholder="SKU"/>
+	        	<label for="name">SKU</label>
+	        	<select name="sku[]">
+        			<option value="ipd"  selected>ipd - Super iPad</option>
+        			<option value="mbp">mbp - MacBook Pro</option>
+        			<option value="atv">atv - Apple TV</option>
+        			<option value="vga">vga - VGA adapter</option>
+      			</select>
 		</div>
       	<div>
           <button type="button" id="submit">Submit</button>
@@ -42,8 +47,13 @@
 	        $(wrapper).append(
 	        	'<div class="input_fields_wrap">'+
 	                    '<label for="name">SKU</label>'+
-	                    '<input type="text" name="sku[]" placeholder="SKU"/>'+
-	                	'<button class="remove_field">Remove SKU</button>'+
+	                    '<select name="sku[]">' +
+        		    '<option value="ipd"  selected>ipd - Super iPad</option>' +
+        		    '<option value="mbp">mbp - MacBook Pro</option>' +
+        	            '<option value="atv">atv - Apple TV</option>' +
+        		    '<option value="vga">vga - VGA adapter</option>' +
+      			    '</select>' +
+	                    '<button class="remove_field">Remove SKU</button>'+
 	            '</div>'
 	        );
 	    });
@@ -57,7 +67,7 @@
         	var serializeData = serialize($("#createForm")); 
             var products = {}; 
             var i = 0; 
-			var sku = $('input[name="sku[]"]').map(function(){ 
+			var sku = $('select[name="sku[]"]').map(function(){ 
 								return this.value; 
 							}).get();
 			$.ajax({

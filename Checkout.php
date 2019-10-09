@@ -13,13 +13,14 @@ class Checkout {
 
     public function total($priceRules) {
         $array_count = array_count_values($this->skus);
-
-        foreach ($array_count as $key => $value) {
-            $freeGiftSKU = $priceRules[$key]->getfreeGiftSKU();
+	foreach($this->skus as $key => $value) {
+	    $freeGiftSKU = $priceRules[$value]->getfreeGiftSKU();
             if ($freeGiftSKU != null) {
                 $this->freeSKUS[] = $freeGiftSKU;
             }
-        }
+	}
+
+
         if ($this->freeSKUS != null) {
             $freeGiftArray = array_count_values($this->freeSKUS);
             //loop all free gift
